@@ -1,4 +1,5 @@
-from mqtt import MqttWrapper
+from mqtt_wrapper import MqttWrapper
+from kafka_wrapper import KafkaWrapper
 import time
 import subprocess
 
@@ -10,6 +11,7 @@ if __name__ == '__main__':
     print("smlogger subprocess started")
 
     mqtt_wrapper = MqttWrapper()
+    kafka_wrapper = KafkaWrapper()
     print("mqtt wrapper ceated")
     while True:
         # Read output from smlogger (written to logfile.txt by pylon smlogger)
@@ -21,5 +23,6 @@ if __name__ == '__main__':
         else:
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
+            kafka_wrapper.kafka_publish(data)
         # Repeat every second
         time.sleep(1)

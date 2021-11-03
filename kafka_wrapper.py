@@ -21,8 +21,8 @@ class KafkaWrapper:
         self.topic = "EnergyMgmt"
 
     def kafka_publish(self, data):
-        #payloads = parser(data)
-        payloads = data
+        payloads = parser(data)
+        # payloads = data
         kafka_dict = {}
         for x in range(len(self.keys)):
             kafka_dict[self.keys[x]] = payloads[x]
@@ -31,12 +31,12 @@ class KafkaWrapper:
         print("kafka message sent")
 
 
-if __name__ == '__main__':
-    data = ["Hallo", "ich", "bin", "cool"]
-    kafka_wrapper = KafkaWrapper()
-    i = 0
+# if __name__ == '__main__':
+#     data = ["Hallo", "was", "geht", "ab"]
+#     kafka_wrapper = KafkaWrapper()
+#     i = 0
     
-    while i < 10:
-        i += 1
-        kafka_wrapper.kafka_publish(data=data)
-        time.sleep(1)
+#     while i < 10:
+#         i += 1
+#         kafka_wrapper.kafka_publish(data=data)
+#         time.sleep(1)
