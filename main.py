@@ -11,11 +11,11 @@ if __name__ == '__main__':
     mqtt_wrapper = MqttWrapper()
 
     while True:
-        # Read output from smlogger(Writte to txt by pylon smlogger)
+        # Read output from smlogger (written to logfile.txt by pylon smlogger)
         with open("logfile.txt", "r") as f:
             data = f.readlines()
         # Publish data via mqtt and kafka client
-        if data != None:
+        if  not data:
             mqtt_wrapper.mqtt_publish(data)
-        # Read data from Smart meter every second
+        # Repeat every second
         time.sleep(1)
