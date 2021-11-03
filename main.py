@@ -16,7 +16,9 @@ if __name__ == '__main__':
         with open("logfile.txt", "r") as f:
             data = f.readlines()
         # Publish data via mqtt and kafka client
-        if  not data:
+        if not data:
+            print("Empty logfile.txt")
+        else:
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
         # Repeat every second

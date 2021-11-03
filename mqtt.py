@@ -18,12 +18,9 @@ class MqttWrapper():
         self.topics = [topic_1, topic_2, topic_3, topic_4]
 
     def mqtt_publish(self, data):
-        if data != None:
-            # Parse Smart Meter output into topics
-            payloads = parse(data)
-            print("publishing mqtt topics")
-            # Publish topics
-            for x in range(len(self.topics)):
-                
-                self.client.publish(
-                    self.topics[x], payloads[x], qos=0, retain=False)
+        # Parse Smart Meter output into topics
+        payloads = parse(data)
+        print("publishing mqtt topics")
+        # Publish topics
+        for x in range(len(self.topics)):
+            self.client.publish(self.topics[x], payloads[x], qos=0, retain=False)
