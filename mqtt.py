@@ -24,3 +24,4 @@ class MqttWrapper():
         # Publish topics
         for x in range(len(self.topics)):
             self.client.publish(self.topics[x], payloads[x], qos=0, retain=False)
+            print(f"Topic: {self.topics[x]} was published")
