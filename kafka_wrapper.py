@@ -1,3 +1,4 @@
+
 import json
 import parser
 from kafka import KafkaProducer
@@ -10,7 +11,7 @@ import time
 class KafkaWrapper:
     BOOTSTRAP_SERVER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de:9092"
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.producer = KafkaProducer(bootstrap_servers=self.BOOTSTRAP_SERVER, api_version=(0, 11, 5))
 
         key_1 = "Power"
@@ -24,7 +25,10 @@ class KafkaWrapper:
         payloads = parse(data)
         kafka_dict = {}
         for x in range(len(self.keys)):
-            kafka_dict[self.keys[x]] = payloads[x]
+            try:
+                    kafka_dict[self.keys[x]] = payloads[x]
+            except:
+                    pass
         kafka_message = json.dumps(kafka_dict)
         self.producer.send(self.topic, kafka_message.encode())
         print("kafka message sent")
