@@ -4,6 +4,7 @@ from kafka import KafkaProducer
 from kafka import KafkaConsumer
 from json import dumps
 from parser import parse
+import time
 
 
 class KafkaWrapper:
@@ -20,14 +21,22 @@ class KafkaWrapper:
         self.topic = "EnergyMgmt"
 
     def kafka_publish(self, data):
-        payloads = parser(data)
+        #payloads = parser(data)
+        payloads = data
         kafka_dict = {}
         for x in range(len(self.keys)):
             kafka_dict[self.keys[x]] = payloads[x]
         kafka_message = json.dumps(kafka_dict)
         self.producer.send(self.topic, kafka_message.encode())
+        print("kafka message sent")
 
 
 if __name__ == '__main__':
+    data = ["Hallo", "ich", "bin", "cool"]
     kafka_wrapper = KafkaWrapper()
-    kafka_wrapper.kafka_publish()
+    i = 0
+    
+    while i < 10:
+        i += 1
+        kafka_wrapper.kafka_publish(data=data)
+        time.sleep(1)
