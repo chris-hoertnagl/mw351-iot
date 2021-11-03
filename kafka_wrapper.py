@@ -8,7 +8,7 @@ import time
 
 
 class KafkaWrapper:
-    BOOTSTRAP_SERVER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de:9092" #"localhost:9092"
+    BOOTSTRAP_SERVER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de:9092"
 
     def __init__(self) -> None:
         self.producer = KafkaProducer(bootstrap_servers=self.BOOTSTRAP_SERVER, api_version=(0, 11, 5))
@@ -22,21 +22,9 @@ class KafkaWrapper:
 
     def kafka_publish(self, data):
         payloads = parse(data)
-        # payloads = data
         kafka_dict = {}
         for x in range(len(self.keys)):
             kafka_dict[self.keys[x]] = payloads[x]
         kafka_message = json.dumps(kafka_dict)
         self.producer.send(self.topic, kafka_message.encode())
         print("kafka message sent")
-
-
-# if __name__ == '__main__':
-#     data = ["Hallo", "was", "geht", "ab"]
-#     kafka_wrapper = KafkaWrapper()
-#     i = 0
-    
-#     while i < 10:
-#         i += 1
-#         kafka_wrapper.kafka_publish(data=data)
-#         time.sleep(1)
