@@ -7,7 +7,7 @@ class MqttWrapper():
     PORT = 1883
     CLIENT_NAME = "Bret"
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.client = paho.Client(self.CLIENT_NAME)
         self.client.connect(self.BROKER, self.PORT)
 
