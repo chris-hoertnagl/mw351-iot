@@ -2,7 +2,7 @@ import paho.mqtt.client as paho
 from parser import parse
 
 
-def publish(data):
+def mqtt_publish(data):
     broker = "IWILR3-6.CAMPUS.fh-ludwigshafen.de"
     port = 1883
 
@@ -12,5 +12,5 @@ def publish(data):
         bret_client = paho.Client("Bret")
         bret_client.connect(broker, port)
         # Publish topics
-        for x in range(4):
+        for x in range(len(topics)):
             bret_client.publish(topics[x], payloads[x], qos=0, retain=False)

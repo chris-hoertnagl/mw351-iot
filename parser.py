@@ -1,6 +1,5 @@
 import datetime
 
-
 def parse(data):
     try:
         sm_input = data[0].split("	")
