@@ -20,6 +20,8 @@ if __name__ == '__main__':
         # Publish data via mqtt and kafka client
         if not data:
             print("Empty logfile.txt")
+            process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
+            print("smlogger subprocess started")
         else:
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
