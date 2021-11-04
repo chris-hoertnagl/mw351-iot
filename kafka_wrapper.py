@@ -1,12 +1,7 @@
-
 import json
-import parser
 from kafka import KafkaProducer
-from kafka import KafkaConsumer
 from json import dumps
-from parser import parse
-import time
-
+from sml_parser import parse
 
 class KafkaWrapper:
     BOOTSTRAP_SERVER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de:9092"
