@@ -1,5 +1,6 @@
 from mqtt_wrapper import MqttWrapper
 from kafka_wrapper import KafkaWrapper
+import write_db
 import time
 import subprocess
 
@@ -26,5 +27,6 @@ if __name__ == '__main__':
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
             kafka_wrapper.kafka_publish(data)
+            #write_db.write_to_db(data)
         # Repeat every second
         time.sleep(1)
