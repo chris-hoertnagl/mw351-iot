@@ -1,6 +1,7 @@
 # Custom
 test.ipynb
-*.txt
+logfile.txt
+counterReading_all.txt
 iot_env/
 
 # Byte-compiled / optimized / DLL files
