@@ -14,7 +14,11 @@ try:
     cursor = connection.cursor()
     cursor.execute("SELECT * from ENERGYMGMT")
     df = pd.DataFrame(cursor.fetchall())
+    df.columns = ["date", "power"]
+    df.date = pd.to_datetime(df.date)
+    df.power = df.power.astype(float)
     print(df.head())
+    print(df.info())
 
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
