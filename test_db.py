@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2 import Error
+import pandas as pd
 
 try:
     # Connect to an existing database
@@ -11,9 +12,9 @@ try:
 
     # Create a cursor to perform database operations
     cursor = connection.cursor()
-    cursor.execute("SELECT * from mobile")
-    connection.commit()
-    print("Result ", cursor.fetchall())
+    cursor.execute("SELECT * from ENERGYMGMT")
+    df = pd.DataFrame(cursor.fetchall())
+    print(df.head())
 
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
