@@ -26,7 +26,7 @@ if __name__ == '__main__':
         else:
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
-            kafka_wrapper.kafka_publish(data)
-            #write_db.write_to_db(data)
+            #kafka_wrapper.kafka_publish(data)
+            write_db.write_to_db(data)
         # Repeat every second
         time.sleep(1)

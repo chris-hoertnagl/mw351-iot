@@ -2,9 +2,9 @@ from sqlalchemy import create_engine
 from sml_parser import parse
 import pandas as pd
 
-database="mydb"
+database="postgrest"
 user='postgres',
-password='iot'
+password='password'
 host='127.0.0.1'
 port= '5432'
 
