@@ -7,7 +7,7 @@ class KafkaWrapper:
     BOOTSTRAP_SERVER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de:9092"
 
     def __init__(self):
-        self.producer = KafkaProducer(bootstrap_servers=self.BOOTSTRAP_SERVER, api_version=(0, 11, 5))
+        self.producer = KafkaProducer(bootstrap_servers=self.BOOTSTRAP_SERVER, api_version=(0, 11, 5), max_block_ms=1000)
 
         key_1 = "Power"
         key_2 = "Current"
