@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import Error
 import pandas as pd
+import linreg
 
 try:
     # Connect to an existing database
@@ -19,6 +20,8 @@ try:
     df.power = df.power.astype(float)
     print(df.head())
     print(df.info())
+    print("###################################################")
+    print(linreg.predict(df, 3))
 
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
