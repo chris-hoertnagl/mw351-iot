@@ -3,6 +3,7 @@ from kafka_wrapper import KafkaWrapper
 import write_db
 import time
 import subprocess
+import datetime
 
 if __name__ == '__main__':
 
@@ -13,7 +14,10 @@ if __name__ == '__main__':
 
     mqtt_wrapper = MqttWrapper()
     kafka_wrapper = KafkaWrapper()
-    print("mqtt wrapper ceated")
+    print("wrapper ceated")
+    
+    last_hour = -1
+    
     while True:
         # Read output from smlogger (written to logfile.txt by pylon smlogger)
         with open("logfile.txt", "r") as f:
@@ -26,7 +30,15 @@ if __name__ == '__main__':
         else:
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
-            #kafka_wrapper.kafka_publish(data)
-            write_db.write_to_db(data)
+            try:
+                kafka_wrapper.kafka_publish(data)
+            except:
+                print("Kafka server not running")
+            
+            # Every hour write value to database
+            hour = datetime.datetime.now().hour
+            if last_hour != hour:
+                write_db.write_to_db(data)
+                last_hour = hour
         # Repeat every second
         time.sleep(1)

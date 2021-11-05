@@ -2,6 +2,7 @@ import paho.mqtt.client as paho
 from sml_parser import parse
 import json
 
+
 class MqttWrapper():
     BROKER = "IWILR3-6.CAMPUS.fh-ludwigshafen.de"
     PORT = 1883
@@ -24,12 +25,7 @@ class MqttWrapper():
         # Publish topics
         for x in range(len(self.topics)):
             try:
-                    self.client.publish(self.topics[x], json.dumps(payloads[x]), qos=0, retain=False)
-            except: #print(f"Topic: {self.topics[x]} was published")
-                    pass
-
-
-
-
-
-
+                self.client.publish(self.topics[x], json.dumps(
+                    payloads[x]), qos=0, retain=False)
+            except:
+                print("Failed publishing message")
