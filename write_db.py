@@ -2,8 +2,8 @@ from sqlalchemy import create_engine
 from sml_parser import parse
 import pandas as pd
 
-database="postgrest"
-user='postgres',
+database="pi"
+user='pi',
 password='password'
 host='127.0.0.1'
 port= '5432'
