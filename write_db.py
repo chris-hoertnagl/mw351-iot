@@ -21,8 +21,8 @@ def write_to_db(data):
     parsed = parse(data)
     date = pd.to_datetime(parsed[0]['date'])
     power = float(parsed[0]['P'])
-    insert_query = f""" INSERT INTO ENERGYMGMT (DATE, POWER) VALUES ({date}, {power})"""
-
+    insert_query = """ INSERT INTO ENERGYMGMT (DATE, POWER) VALUES (%s, %s)"""
+    item_tuple = (date, power)
     cursor = connection.cursor()
-    cursor.execute(insert_query)
+    cursor.execute(insert_query, item_tuple)
     connection.commit()
