@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+import psycopg2
 from sml_parser import parse
 import pandas as pd
 
@@ -8,15 +8,21 @@ password = 'pw_raspberry'
 host = '127.0.0.1'
 port = '5432'
 
-table_name = "EnergyManagement"
+table_name = "ENERGYMGMT"
 
-engine = create_engine(f"postgresql+psycopg2://{user}:{password}@{host}:5432/{database}",
-                       connect_args={'options': '-csearch_path=iot'})
-
+# Connect to an existing database
+connection = psycopg2.connect(user="pi",
+                              password="pw_raspberry",
+                              host="127.0.0.1",
+                              port="5432",
+                              database="iotdb")
 
 def write_to_db(data):
     parsed = parse(data)
-    df = pd.DataFrame(parsed)
-    df = df.fillna(method="bfill")
-    df.iloc[[0], :]
-    df.to_sql(table_name, engine, if_exists='append', index=False)
+    date = pd.to_datetime(parsed[0]['date'])
+    power = float(parsed[0]['P'])
+    insert_query = f""" INSERT INTO ENERGYMGMT (DATE, POWER) VALUES ({date}, {power})"""
+
+    cursor = connection.cursor()
+    cursor.execute(insert_query)
+    connection.commit()

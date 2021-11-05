@@ -1,17 +1,24 @@
-from sqlalchemy import create_engine
-from sml_parser import parse
-import pandas as pd
+import psycopg2
+from psycopg2 import Error
 
-database="mydb"
-user='postgres',
-password='iot'
-host='127.0.0.1'
-port= '5432'
+try:
+    # Connect to an existing database
+    connection = psycopg2.connect(user="pi",
+                                  password="pw_raspberry",
+                                  host="127.0.0.1",
+                                  port="5432",
+                                  database="iotdb")
 
-table_name = "EnergyManagement"
+    # Create a cursor to perform database operations
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from mobile")
+    connection.commit()
+    print("Result ", cursor.fetchall())
 
-engine = create_engine(f"postgresql+psycopg2://{user}:{password}@{host}:5432/{database}")
-
-df = pd.read_sql(f"select * from \"{table_name}\"", engine.connect())
-
-print(df)
+except (Exception, Error) as error:
+    print("Error while connecting to PostgreSQL", error)
+finally:
+    if (connection):
+        cursor.close()
+        connection.close()
+        print("PostgreSQL connection is closed")
