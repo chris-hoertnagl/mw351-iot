@@ -25,6 +25,7 @@ if __name__ == '__main__':
         # Publish data via mqtt and kafka client
         if not data:
             print("Empty logfile.txt")
+            process.kill()
             process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
             print("smlogger subprocess started")
         else:
