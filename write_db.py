@@ -20,7 +20,7 @@ connection = psycopg2.connect(user="pi",
 def write_to_db(data):
     parsed = parse(data)
     date = pd.to_datetime(parsed[0]['date'])
-    power = float(parsed[0]['P'])
+    power = float(parsed[3]['CR_P'])
     insert_query = """ INSERT INTO ENERGYMGMT (DATE, POWER) VALUES (%s, %s)"""
     item_tuple = (date, power)
     cursor = connection.cursor()
