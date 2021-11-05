@@ -2,9 +2,9 @@ from sqlalchemy import create_engine
 from sml_parser import parse
 import pandas as pd
 
-database = "pi"
+database = "iotdb"
 user = 'pi',
-password = 'password'
+password = 'pw_raspberry'
 host = '127.0.0.1'
 port = '5432'
 
