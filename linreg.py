@@ -4,7 +4,7 @@ import datetime
 from sklearn import linear_model
 
 def predict(df, hours):
-    df['hours_from_start'] = (df.date - df.date[0]).hours; df
+    df['hours_from_start'] = (df.date - df.date[0]).days
     x = df['days_from_start'].values
     y = df['power'].values
     x = x.reshape(-1, 1)
