@@ -27,23 +27,23 @@ def parse(data):
             )
         payload_1 = {}
         payload_1["date"] = date
-        payload_1["P"] = sm_input[1]
-        payload_1["P1"] = sm_input[2]
-        payload_1["P2"] = sm_input[3]
-        payload_1["P3"] = sm_input[4]
+        payload_1["P"] = float(sm_input[1])
+        payload_1["P1"] = float(sm_input[2])
+        payload_1["P2"] = float(sm_input[3])
+        payload_1["P3"] = float(sm_input[4])
         
         payload_2 = {}
         payload_2["date"] = date
-        payload_2["I0"] = sm_input[5]
-        payload_2["I1"] = sm_input[6]
-        payload_2["I2"] = sm_input[7]
-        payload_2["I3"] = sm_input[8]
+        payload_2["I0"] = float(sm_input[5])
+        payload_2["I1"] = float(sm_input[6])
+        payload_2["I2"] = float(sm_input[7])
+        payload_2["I3"] = float(sm_input[8])
         
         payload_3 = {}
         payload_3["date"] = date
-        payload_3["V1"] = sm_input[9]
-        payload_3["V2"] = sm_input[10]
-        payload_3["V3"] = sm_input[11]
+        payload_3["V1"] = float(sm_input[9])
+        payload_3["V2"] = float(sm_input[10])
+        payload_3["V3"] = float(sm_input[11])
 
         payload_4 = {}
         payload_4["date"] = date

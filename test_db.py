@@ -21,7 +21,7 @@ try:
     print(df)
     print(df.info())
     print("###################################################")
-    print(linreg.predict(df, 3))
+    print(linreg.predict(df))
 
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)

@@ -1,19 +1,21 @@
 import numpy as np
 import pandas as pd
-import datetime
 from sklearn import linear_model
 
-def predict(df, days):
-    df['days_from_start'] = (df.date - df.date[0]).days
-    x = df['days_from_start'].values
+def predict(df):
+    df.sort_values("date", ascending=True, inplace=True)
+    df['days_from_start'] = (df.date - df.date.values[0]).dt.days
+
+    X = df['days_from_start'].values[:,np.newaxis] 
     y = df['power'].values
-    x = x.reshape(-1, 1)
 
-    model = linear_model.LinearRegression().fit(x, y)
-    linear_model.LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+    model = linear_model.LinearRegression()
+    model.fit(X, y)
 
-    prediction_day = df.days_from_start.max() + days
+    today = df.days_from_start.max()
+    prediction_day = today + 30
     prediciton = model.predict([[prediction_day]])
+    estimation = prediciton[0] - df.loc[df.days_from_start == today, "power"][0]
 
-    print(f"Energy consumption in {days} days will be: {prediciton}")
-    return prediciton
+    print(f"Estimated Energy consumption for the next 30 days: {estimation}")
+    return estimation
