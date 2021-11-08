@@ -4,7 +4,7 @@ import json
 
 
 class MqttWrapper():
-    BROKER = "IWILR3-6.CAMPUS.fh-ludwigshafen.de"
+    BROKER = "IWILR3-7.CAMPUS.fh-ludwigshafen.de"
     PORT = 1883
     CLIENT_NAME = "Bret"
 
