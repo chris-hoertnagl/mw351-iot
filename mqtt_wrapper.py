@@ -12,10 +12,10 @@ class MqttWrapper():
         self.client = paho.Client(self.CLIENT_NAME)
         self.client.connect(self.BROKER, self.PORT)
 
-        topic_1 = "EnergyMgmt/SM000001/Power"
-        topic_2 = "EnergyMgmt/SM000001/Current"
-        topic_3 = "EnergyMgmt/SM000001/Voltage"
-        topic_4 = "EnergyMgmt/SM000001/CounterReading"
+        topic_1 = "Smarthome/EnergyMgmt/SM000001/Power"
+        topic_2 = "Smarthome/EnergyMgmt/SM000001/Current"
+        topic_3 = "Smarthome/EnergyMgmt/SM000001/Voltage"
+        topic_4 = "Smarthome/EnergyMgmt/SM000001/CounterReading"
         self.topics = [topic_1, topic_2, topic_3, topic_4]
 
     def mqtt_publish(self, data):

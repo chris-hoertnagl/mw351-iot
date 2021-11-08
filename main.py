@@ -39,6 +39,7 @@ if __name__ == '__main__':
             # Every hour write value to database
             hour = datetime.datetime.now().hour
             if last_hour != hour:
+                print("writing to database")
                 write_db.write_to_db(data)
                 last_hour = hour
         # Repeat every second

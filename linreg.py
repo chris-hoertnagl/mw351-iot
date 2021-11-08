@@ -3,8 +3,8 @@ import pandas as pd
 import datetime
 from sklearn import linear_model
 
-def predict(df, hours):
-    df['hours_from_start'] = (df.date - df.date[0]).days
+def predict(df, days):
+    df['days_from_start'] = (df.date - df.date[0]).days
     x = df['days_from_start'].values
     y = df['power'].values
     x = x.reshape(-1, 1)
@@ -12,8 +12,8 @@ def predict(df, hours):
     model = linear_model.LinearRegression().fit(x, y)
     linear_model.LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
 
-    prediction_day = df.days_from_start.max() + hours
+    prediction_day = df.days_from_start.max() + days
     prediciton = model.predict([[prediction_day]])
 
-    print(f"Energy consumption in {hours} hours will be: {prediciton}")
+    print(f"Energy consumption in {days} days will be: {prediciton}")
     return prediciton

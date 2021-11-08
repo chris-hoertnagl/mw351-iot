@@ -18,7 +18,7 @@ try:
     df.columns = ["date", "power"]
     df.date = pd.to_datetime(df.date)
     df.power = df.power.astype(float)
-    print(df.head())
+    print(df)
     print(df.info())
     print("###################################################")
     print(linreg.predict(df, 3))
