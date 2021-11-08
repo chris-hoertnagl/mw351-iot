@@ -15,14 +15,7 @@ try:
     cursor = connection.cursor()
     cursor.execute("SELECT * from ENERGYMGMT")
     df = pd.DataFrame(cursor.fetchall())
-    df.columns = ["date", "power"]
-    df.date = pd.to_datetime(df.date)
-    df.power = df.power.astype(float)
-    print(df)
-    print(df.info())
-    print("###################################################")
-    print(linreg.predict(df))
-
+    print("Create df from database")
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
 finally:
@@ -30,3 +23,11 @@ finally:
         cursor.close()
         connection.close()
         print("PostgreSQL connection is closed")
+
+df.columns = ["date", "power"]
+df.date = pd.to_datetime(df.date)
+df.power = df.power.astype(float)
+print(df)
+print(df.info())
+print("###################################################")
+print(linreg.predict(df))
