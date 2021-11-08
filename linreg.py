@@ -23,10 +23,10 @@ def predict(df):
     prediciton = model.predict([[prediction_day]])
     print(today)
     print(prediction_day)
-    print(prediciton)
-    print(df.loc[df.days_from_start == today, "power"][0])
+    print(prediciton[0])
+    print(df.loc[df.days_from_start == today, "power"].values[0])
 
-    estimation = prediciton - df.loc[df.days_from_start == today, "power"]
+    estimation = prediciton[0] - df.loc[df.days_from_start == today, "power"].values[0]
     print(estimation)
 
     print(f"Estimated Energy consumption for the next 30 days: {estimation}")
