@@ -13,10 +13,11 @@ def parse(data):
         cR_old_P1 = float(current_stand[1].split(":")[1])
         cR_old_P2 = float(current_stand[2].split(":")[1])
         cR_old_P3 = float(current_stand[3].split(":")[1])
-        cR_old_P += float(sm_input[1])/3600
-        cR_old_P1 += float(sm_input[2])/3600
-        cR_old_P2 += float(sm_input[3])/3600
-        cR_old_P3 += float(sm_input[4])/3600
+        Watt_to_kWh = 60 * 60 * 100
+        cR_old_P += float(sm_input[1])/Watt_to_kWh
+        cR_old_P1 += float(sm_input[2])/Watt_to_kWh
+        cR_old_P2 += float(sm_input[3])/Watt_to_kWh
+        cR_old_P3 += float(sm_input[4])/Watt_to_kWh
 
         with open("counterReading_all.txt", "w") as f:
             f.write(
