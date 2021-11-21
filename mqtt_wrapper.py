@@ -16,7 +16,8 @@ class MqttWrapper():
         topic_2 = "Smarthome/EnergyMgmt/SM000001/Current"
         topic_3 = "Smarthome/EnergyMgmt/SM000001/Voltage"
         topic_4 = "Smarthome/EnergyMgmt/SM000001/CounterReading"
-        self.topics = [topic_1, topic_2, topic_3, topic_4]
+        topic_5 = "Smarthome/EnergyMgmt/SM000001/Consumption"
+        self.topics = [topic_1, topic_2, topic_3, topic_4, topic_5]
 
     def mqtt_publish(self, data):
         # Parse Smart Meter output into topics

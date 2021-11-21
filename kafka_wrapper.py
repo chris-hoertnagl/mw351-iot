@@ -13,7 +13,8 @@ class KafkaWrapper:
         key_2 = "Current"
         key_3 = "Voltage"
         key_4 = "CounterReading"
-        self.keys = [key_1, key_2, key_3, key_4]
+        key_5 = "Consumption"
+        self.keys = [key_1, key_2, key_3, key_4, key_5]
         self.topic = "EnergyMgmt"
 
     def kafka_publish(self, data):
