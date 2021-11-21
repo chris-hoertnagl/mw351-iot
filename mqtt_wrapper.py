@@ -22,11 +22,11 @@ class MqttWrapper():
     def mqtt_publish(self, data):
         # Parse Smart Meter output into topics
         payloads = data
-        print("publishing mqtt topics")
         # Publish topics
         for x in range(len(self.topics)):
             try:
                 self.client.publish(self.topics[x], json.dumps(
                     payloads[x]), qos=0, retain=False)
+                print(f"published {payloads[x]} to {self.topics[x]}")
             except:
                 print("Failed publishing message")

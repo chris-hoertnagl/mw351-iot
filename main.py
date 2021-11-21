@@ -22,22 +22,23 @@ if __name__ == '__main__':
     consumption = {"consumption_last_24h": -1, "prediction_next_30d": -1}
     
     while True:
-        minute = datetime.datetime.now().minute
-        if last_minute != minute:
-            # Read output from smlogger (written to logfile.txt by pylon smlogger)
-            with open("logfile.txt", "r") as f:
-                data_raw = f.readlines()
-            # Publish data via mqtt and kafka client
-            if not data_raw:
-                print("Empty logfile.txt")
-                process.kill()
-                process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
-                print("smlogger subprocess started")
-            else:
-                data = parse(data_raw) 
-                print("Smart Meter data parsed")
+        # Read output from smlogger (written to logfile.txt by pylon smlogger)
+        with open("logfile.txt", "r") as f:
+            data_raw = f.readlines()
+        # Publish data via mqtt and kafka client
+        if not data_raw:
+            print("Empty logfile.txt")
+            process.kill()
+            process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
+            print("smlogger subprocess started")
+        else:
+            data = parse(data_raw) 
+            print("Smart Meter data parsed")
 
-                # Every hour write value to database
+            # only send data every minute
+            minute = datetime.datetime.now().minute
+            if last_minute != minute:
+                # Every hour write value to database and do prediction
                 hour = datetime.datetime.now().hour
                 if last_hour != hour:
                     dh = data_handler.DataHandler()
@@ -52,12 +53,13 @@ if __name__ == '__main__':
                 data.append(consumption)
                 print(data)
                 
+                # Publish data
                 mqtt_wrapper.mqtt_publish(data)
                 try:
                     kafka_wrapper.kafka_publish(data)
                 except:
                     print("Kafka server not running")
-            last_minute = minute
-        else:
-            print("Waiting for next minute")    
-            time.sleep(3)
+                last_minute = minute
+        
+        # Repeat every second
+        time.sleep(1)

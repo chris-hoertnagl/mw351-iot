@@ -13,7 +13,7 @@ def parse(data):
         cR_old_P1 = float(current_stand[1].split(":")[1])
         cR_old_P2 = float(current_stand[2].split(":")[1])
         cR_old_P3 = float(current_stand[3].split(":")[1])
-        Watt_to_kWh = 60 * 1000
+        Watt_to_kWh = 60 * 60 * 1000
         cR_old_P += float(sm_input[1])/Watt_to_kWh
         cR_old_P1 += float(sm_input[2])/Watt_to_kWh
         cR_old_P2 += float(sm_input[3])/Watt_to_kWh

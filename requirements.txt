@@ -3,3 +3,4 @@ psycopg2
 paho-mqtt
 kafka-python
 pandas
+sklearn
