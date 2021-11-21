@@ -17,7 +17,7 @@ class KafkaWrapper:
         self.topic = "EnergyMgmt"
 
     def kafka_publish(self, data):
-        payloads = parse(data)
+        payloads = data
         kafka_dict = {}
         for x in range(len(self.keys)):
             try:

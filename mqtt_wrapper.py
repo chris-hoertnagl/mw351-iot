@@ -20,7 +20,7 @@ class MqttWrapper():
 
     def mqtt_publish(self, data):
         # Parse Smart Meter output into topics
-        payloads = parse(data)
+        payloads = data
         print("publishing mqtt topics")
         # Publish topics
         for x in range(len(self.topics)):

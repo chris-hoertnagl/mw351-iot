@@ -4,6 +4,7 @@ import write_db
 import time
 import subprocess
 import datetime
+from sml_parser import parse
 
 if __name__ == '__main__':
 
@@ -16,19 +17,20 @@ if __name__ == '__main__':
     kafka_wrapper = KafkaWrapper()
     print("wrapper ceated")
     
-    last_hour = -1
+    last_hour = datetime.datetime.now().hour
     
     while True:
         # Read output from smlogger (written to logfile.txt by pylon smlogger)
         with open("logfile.txt", "r") as f:
-            data = f.readlines()
+            data_raw = f.readlines()
         # Publish data via mqtt and kafka client
-        if not data:
+        if not data_raw:
             print("Empty logfile.txt")
             process.kill()
             process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
             print("smlogger subprocess started")
         else:
+            data = parse(data_raw) 
             print("Smart Meter data recieved")
             mqtt_wrapper.mqtt_publish(data)
             try:

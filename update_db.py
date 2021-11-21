@@ -1,5 +1,4 @@
 import psycopg2
-from sml_parser import parse
 import pandas as pd
 
 database = "iotdb"
@@ -17,12 +16,19 @@ connection = psycopg2.connect(user="pi",
                               port="5432",
                               database="iotdb")
 
-def write_to_db(data):
-    parsed = data
-    date = pd.to_datetime(parsed[0]['date'])
-    power = float(parsed[3]['CR_P'])
-    insert_query = """ INSERT INTO ENERGYMGMT (DATE, POWER) VALUES (%s, %s)"""
-    item_tuple = (date, power)
+df = pd.read_csv("data.csv", parse_dates=["date"], index_col=0)
+pl = []
+p = 0
+for i in range(len(df)):
+    pl.append(p)
+    p += (30 / (1000))
+df['new'] = pl
+
+for i in range(len(df)):
+    date = df['date'][i]
+    power = df['new'][i]
+    update_query = """UPDATE ENERGYMGMT SET power = (%s) WHERE date = (%s)"""
+    update_tuple = (power,date)
     cursor = connection.cursor()
-    cursor.execute(insert_query, item_tuple)
+    cursor.execute(update_query, update_tuple)
     connection.commit()
