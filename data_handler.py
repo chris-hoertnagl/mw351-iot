@@ -44,7 +44,7 @@ class DataHandler:
         
     def predict(self):
         df = self.read_from_db()
-        if df != None:
+        if df is not None:
             df.sort_values("date", ascending=True, inplace=True)
             now = datetime.datetime.now() - datetime.timedelta(days = 1)
             df = df.loc[df.date >= now, :]
