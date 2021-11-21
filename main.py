@@ -1,6 +1,6 @@
 from mqtt_wrapper import MqttWrapper
 from kafka_wrapper import KafkaWrapper
-import write_db
+import data_handler
 import time
 import subprocess
 import datetime
@@ -18,31 +18,46 @@ if __name__ == '__main__':
     print("wrapper ceated")
     
     last_hour = datetime.datetime.now().hour
+    last_minute = datetime.datetime.now().minute
+    consumption = {"consumption_last_24h": -1, "prediction_next_30d": -1}
     
     while True:
-        # Read output from smlogger (written to logfile.txt by pylon smlogger)
-        with open("logfile.txt", "r") as f:
-            data_raw = f.readlines()
-        # Publish data via mqtt and kafka client
-        if not data_raw:
-            print("Empty logfile.txt")
-            process.kill()
-            process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
-            print("smlogger subprocess started")
+        minute = datetime.datetime.now().minute
+        if last_minute != minute:
+            # Read output from smlogger (written to logfile.txt by pylon smlogger)
+            with open("logfile.txt", "r") as f:
+                data_raw = f.readlines()
+            # Publish data via mqtt and kafka client
+            if not data_raw:
+                print("Empty logfile.txt")
+                process.kill()
+                process = subprocess.Popen(CMD, stdout=subprocess.PIPE)
+                print("smlogger subprocess started")
+            else:
+                data = parse(data_raw) 
+                print("Smart Meter data parsed")
+
+                # Every hour write value to database
+                hour = datetime.datetime.now().hour
+                if last_hour != hour:
+                    dh = data_handler.DataHandler()
+                    print("writing to database")
+                    dh.write_to_db(data)
+                    try:
+                        consumption = dh.predict()
+                    except:
+                        print("Prediction failed")
+                    last_hour = hour
+
+                data.append(consumption)
+                print(data)
+                
+                mqtt_wrapper.mqtt_publish(data)
+                try:
+                    kafka_wrapper.kafka_publish(data)
+                except:
+                    print("Kafka server not running")
+            last_minute = minute
         else:
-            data = parse(data_raw) 
-            print("Smart Meter data recieved")
-            mqtt_wrapper.mqtt_publish(data)
-            try:
-                kafka_wrapper.kafka_publish(data)
-            except:
-                print("Kafka server not running")
-            
-            # Every hour write value to database
-            hour = datetime.datetime.now().hour
-            if last_hour != hour:
-                print("writing to database")
-                write_db.write_to_db(data)
-                last_hour = hour
-        # Repeat every second
-        time.sleep(1)
+            print("Waiting for next minute")    
+            time.sleep(3)
