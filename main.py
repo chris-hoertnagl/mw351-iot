@@ -36,8 +36,8 @@ if __name__ == '__main__':
 
             # only send data every minute
             minute = datetime.datetime.now().minute
-            # if last_minute != minute:
-            if True:
+            if last_minute != minute:
+            #if True:
                 # Every hour write value to database and do prediction
                 hour = datetime.datetime.now().hour
                 if last_hour != hour:
