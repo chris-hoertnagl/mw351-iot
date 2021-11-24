@@ -49,7 +49,8 @@ if __name__ == '__main__':
                     except:
                         print("Prediction failed")
                     last_hour = hour
-
+                
+                consumption = {"consumption_last_24h": -1, "prediction_next_30d": -1}
                 data.append(consumption)
                 print(data)
                 
