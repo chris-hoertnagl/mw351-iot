@@ -41,12 +41,17 @@ class DataHandler:
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to PostgreSQL", error)
             return None
-        
+
     def predict(self):
         df = self.read_from_db()
         if df is not None:
+            with open("linreg_settings.json", "r") as f:
+                settings = json.load(f)
+            regression_days = settings["regression_days"]
+            prediciton_days = settings["prediction_days"]
+
             df.sort_values("date", ascending=True, inplace=True)
-            now = datetime.datetime.now() - datetime.timedelta(days = 1)
+            now = datetime.datetime.now() - datetime.timedelta(days = regression_days)
             df = df.loc[df.date >= now, :]
             df['hours_from_start'] = round((df.date - df.date.values[0]).dt.total_seconds() / 3600)
             X = df['hours_from_start'].values[:,np.newaxis] 
@@ -55,14 +60,15 @@ class DataHandler:
             model.fit(X, y)
             current_hour = df.hours_from_start.max()
             power_cons_now = df.loc[df.hours_from_start == current_hour, 'power'].values[0]
-            power_cons_last_24h = (df.tail(1)['power'].values - df.head(1)['power'].values)[0]
-            prediction_hour = current_hour + (24 * 30)
-            prediciton = model.predict([[prediction_hour]])
-            estimation_30days = prediciton[0] - power_cons_now
+            power_cons_last_24h = (df.tail(1)['power'].values - df.head(1)['power'].values)[0] / regression_days
+            prediction_hour = current_hour + (24 * prediciton_days)
+            prediciton_raw = model.predict([[prediction_hour]])
+            prediction = prediciton_raw[0] - power_cons_now
             print(f"consumption now: {power_cons_now}")
             print(f"consumption over last 24 hours: {power_cons_last_24h}")
-            print(f"consumption over the next 30 days: {estimation_30days}")
-            result = {"consumption_last_24h": power_cons_last_24h, "prediction_next_30d": estimation_30days}
-            return result
+            print(f"consumption over the next {prediciton_days} days: {prediction}")
+            result = {"consumption_last_24h": power_cons_last_24h, "prediction": prediction}
+            result
         else:
             result = {"consumption_last_24h": -1, "prediction_next_30d": -1}
+        return result

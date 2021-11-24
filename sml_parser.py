@@ -1,13 +1,11 @@
 import datetime
-import pytz
 
 def parse(data):
     try:
         sm_input = data[0].split("	")
-        date = datetime.datetime.fromtimestamp(
-            float(sm_input[0])).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-        #utc_date = date.astimezone(pytz.utc)
-        #print(utc_date)
+        date_raw = datetime.datetime.fromtimestamp(float(sm_input[0]))
+        utc_date = date_raw.astimezone(datetime.timezone.utc)
+        date = utc_date.strftime("%Y-%m-%d %H:%M:%S.%fZ")
 
         B = open("counterReading_all.txt", "r")
         file = B.read()
