@@ -70,5 +70,5 @@ class DataHandler:
             result = {"consumption_last_24h": power_cons_last_24h, "prediction": prediction}
             result
         else:
-            result = {"consumption_last_24h": -1, "prediction_next_30d": -1}
+            result = {"consumption_last_24h": -1, "prediction": -1}
         return result

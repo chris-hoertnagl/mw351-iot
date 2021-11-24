@@ -19,7 +19,7 @@ if __name__ == '__main__':
     
     last_hour = datetime.datetime.now().hour
     last_minute = datetime.datetime.now().minute
-    consumption = {"consumption_last_24h": -1, "prediction_next_30d": -1}
+    consumption = {"consumption_last_24h": -1, "prediction": -1}
     
     while True:
         # Read output from smlogger (written to logfile.txt by pylon smlogger)
