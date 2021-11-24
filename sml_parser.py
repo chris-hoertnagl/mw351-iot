@@ -5,7 +5,7 @@ def parse(data):
         sm_input = data[0].split("	")
         date_raw = datetime.datetime.fromtimestamp(float(sm_input[0]))
         utc_date = date_raw.astimezone(datetime.timezone.utc)
-        date = utc_date.strftime("%Y-%m-%d %H:%M:%S.%fZ")
+        date = utc_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
         B = open("counterReading_all.txt", "r")
         file = B.read()
