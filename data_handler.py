@@ -43,13 +43,12 @@ class DataHandler:
             return None
 
     def predict(self):
+        with open("linreg_settings.json", "r") as f:
+                settings = json.load(f)
+        regression_days = settings["regression_days"]
+        prediciton_days = settings["prediction_days"]
         df = self.read_from_db()
         if df is not None:
-            with open("linreg_settings.json", "r") as f:
-                settings = json.load(f)
-            regression_days = settings["regression_days"]
-            prediciton_days = settings["prediction_days"]
-
             df.sort_values("date", ascending=True, inplace=True)
             now = datetime.datetime.now() - datetime.timedelta(days = regression_days)
             df = df.loc[df.date >= now, :]
@@ -67,8 +66,7 @@ class DataHandler:
             print(f"consumption now: {power_cons_now}")
             print(f"consumption over last 24 hours: {power_cons_last_24h}")
             print(f"consumption over the next {prediciton_days} days: {prediction}")
-            result = {"consumption_last_24h": power_cons_last_24h, "prediction": prediction}
-            result
+            result = {"consumption_last_24h": power_cons_last_24h, "prediction": prediction, "prediction_settings": settings}
         else:
-            result = {"consumption_last_24h": -1, "prediction": -1}
+            result = {"consumption_last_24h": -1, "prediction": -1, "prediction_settings": settings}
         return result
