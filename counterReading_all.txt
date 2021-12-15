@@ -1,1 +1,1 @@
-counterReading_P:14.909763889234124,counterReading_P1:14.909763889234124,counterReading_P2:0.0,counterReading_P3:0.0,
+counterReading_P:18.8218194451703,counterReading_P1:18.8218194451703,counterReading_P2:0.0,counterReading_P3:0.0,
